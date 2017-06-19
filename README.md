@@ -1,4 +1,4 @@
-# redux-kpt
+# redux-hoanphan
 Clone it to your machine. run
 
 npm install
