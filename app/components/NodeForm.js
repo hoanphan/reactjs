@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {connect} from 'react-redux'
 class NodeForm extends React.Component{
     constructor(props)
     {
@@ -10,17 +10,17 @@ class NodeForm extends React.Component{
     handleSubmit(e)
     {
         e.preventDefault();
-        this.props.addNode(this.refs.txt.value);
-        this.refs.txt.value="";
-        this.toggle();
+        var {dispatch}=this.props;
+        dispatch({type:'ADD_ITEM', item: this.refs.txt.value});
+        dispatch({type:'TOGGLE_IS_ADDING'})
     }
     toggle()
     {
-        this.state.isAdding=!this.state.isAdding;
-        this.setState(this.state);
+       var {dispatch}=this.props;
+       dispatch({type:'TOGGLE_IS_ADDING'})
     }
     render(){
-        if(this.state.isAdding)
+        if(this.props.isAdding)
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <input type="text" placeholder="Enter your text" ref="txt"/>
@@ -32,4 +32,6 @@ class NodeForm extends React.Component{
     }
 }
 
-module.exports = NodeForm;
+module.exports = connect(function (state) {
+    return {isAdding:state.isAdding}
+})(NodeForm);
